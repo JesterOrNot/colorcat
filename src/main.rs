@@ -4,7 +4,8 @@ use structopt::StructOpt;
 struct Cli {
     #[structopt(parse(from_os_str))]
     path: std::path::PathBuf,
-    language: Option<String>,
+    #[structopt(default_value = "txt")]
+    language: String,
 }
 
 fn main() {
@@ -14,6 +15,10 @@ fn main() {
         println!("\x1b[1;31mError File {:?} Not Found\x1b[0m", &args.path);
         std::process::exit(0);
     } else {
-        println!("{}", file_content.unwrap());
+        if &args.language != "txt" {
+            return;
+        } else {
+            println!("{}", file_content.unwrap());
+        }
     }
 }
